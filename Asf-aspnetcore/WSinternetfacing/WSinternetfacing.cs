@@ -4,6 +4,7 @@ using System.Fabric;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
@@ -22,6 +23,25 @@ namespace WSinternetfacing
         public WSinternetfacing(StatelessServiceContext context)
             : base(context)
         { }
+
+
+        private X509Certificate2 FindCertificate(string thumbprint)
+        {
+            X509Store store = new X509Store(StoreName.My, StoreLocation.LocalMachine);
+            try
+            {
+                store.Open(OpenFlags.ReadOnly);
+                X509Certificate2Collection col = store.Certificates.Find(X509FindType.FindByThumbprint,
+                    thumbprint, false); // Don't validate certs, since the test root isn't installed.
+                if (col == null || col.Count == 0)
+                    return null;
+                return col[0];
+            }
+            finally
+            {
+                store.Close();
+            }
+        }
 
         /// <summary>
         /// Optional override to create listeners (like tcp, http) for this service instance.
@@ -47,10 +67,12 @@ namespace WSinternetfacing
                                         //    listenOptions.UseHttps("testCert.pfx", "testPassword");
                                         //}
 
-                                        options.Listen(IPAddress.Loopback, 50000);
-                                        options.Listen(IPAddress.Loopback, 443, listenOptions =>
+                                        options.Listen(IPAddress.Any, 50000);
+                                        options.Listen(IPAddress.Any, 443, listenOptions =>
                                         {
-                                            listenOptions.UseHttps("testCert.pfx", "testPassword");
+                                            //https://stackoverflow.com/questions/40607261/both-http-and-https-endpoints-on-service-fabric-asp-net-core-stateless-service
+                                            listenOptions.UseHttps(FindCertificate("94A0D7680E8B10C795D061239F3B916964960FCB"));
+                                            //listenOptions.UseHttps("testCert.pfx", "testPassword");
                                         }
                                         );
                                     })

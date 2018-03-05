@@ -9,6 +9,9 @@
   <ServiceManifestImport>
     <ServiceManifestRef ServiceManifestName="WSinternetfacingPkg" ServiceManifestVersion="1.0.0" />
     <ConfigOverrides />
+    <Policies>
+      <EndpointBindingPolicy EndpointRef="ServiceEndpointhttps" CertificateRef="HttpsCert" />
+    </Policies>
   </ServiceManifestImport>
   <DefaultServices>
     <!-- The section below creates instances of service types, when an instance of this 
@@ -22,4 +25,7 @@
       </StatelessService>
     </Service>
   </DefaultServices>
+  <Certificates>
+    <EndpointCertificate X509FindValue="[HttpsCertThumbprint]" Name="HttpsCert" />
+  </Certificates>
 </ApplicationManifest>

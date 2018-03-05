@@ -2,5 +2,6 @@
 <Application xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Name="fabric:/Asf_aspnetcore" xmlns="http://schemas.microsoft.com/2011/01/fabric">
   <Parameters>
     <Parameter Name="WSinternetfacing_InstanceCount" Value="1" />
+    <Parameter Name="HttpsCertThumbprint" Value="94A0D7680E8B10C795D061239F3B916964960FCB" />
   </Parameters>
 </Application>

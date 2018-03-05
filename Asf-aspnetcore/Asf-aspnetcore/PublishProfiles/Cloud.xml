@@ -20,7 +20,7 @@
                                     AzureActiveDirectory="true"
                                     ServerCertThumbprint="0123456789012345678901234567890123456789" />
   -->
-  <ClusterConnectionParameters ConnectionEndpoint="" />
+  <ClusterConnectionParameters ConnectionEndpoint="nrdasfhttps.southcentralus.cloudapp.azure.com:19000" X509Credential="true" ServerCertThumbprint="E962E4A2E1755FE5B099A54B54F497B1272BE320" FindType="FindByThumbprint" FindValue="8a237e9e7eb79e50cdbc989b4d6d5778728faaa3" StoreLocation="CurrentUser" StoreName="My" />
   <ApplicationParameterFile Path="..\ApplicationParameters\Cloud.xml" />
   <CopyPackageParameters CompressPackage="true" />
 </PublishProfile>
